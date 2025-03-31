@@ -1,4 +1,7 @@
 services:
+  pipeline:
+    build: .
+    command: python -u ingest.py --user=root --password=root --host=pgdatabase --port=5432 --db=ny_taxi --table=yellow_taxi_data --url=https://d37ci6vzurychx.cloudfront.net/trip-data/yellow_tripdata_2021-01.parquet
   pgdatabase:
     image: postgres:13
     environment:
@@ -9,10 +12,6 @@ services:
       - "./ny_taxi_postgres_data:/var/lib/postgresql/data:rw"
     ports:
       - "5432:5432"
-    networks:
-      mynetwork:
-        aliases:
-          - pgdatabase
   pgadmin:
     image: dpage/pgadmin4
     environment:
@@ -20,10 +19,5 @@ services:
       - PGADMIN_DEFAULT_PASSWORD=root
     ports:
       - "8080:80"
-    networks:
-      mynetwork:
-        aliases:
-          - pgadmin
-networks:
-  mynetwork:
+
     

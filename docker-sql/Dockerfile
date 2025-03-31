@@ -1,6 +1,7 @@
 FROM python:3.9
-RUN pip install pandas pyarrow sqlalchemy
+COPY requirements.txt /requirements.txt
+RUN pip install --upgrade pip
+RUN pip install --no-cache-dir -r /requirements.txt
 WORKDIR /app
-COPY pipeline.py pipeline.py
-COPY yellow_tripdata_2021-01.parquet yellow_tripdata_2021-01.parquet
-ENTRYPOINT [ "bash" ]
+COPY ingest.py ingest.py
+COPY taxi_zone_lookup.csv taxi_zone_lookup.csv
